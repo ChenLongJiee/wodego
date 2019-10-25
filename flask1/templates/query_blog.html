@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h3><a href="/blogs">回到博文列表</a></h3>
+<h1>博文详情</h1>
+<div>
+    <a href="/blogs/update/{{ blog.id }}" id="{{ blog.id }}">更新</a>
+    <h3>{{ blog.title }}</h3>
+    <p>{{ blog.text }}</p>
+    <a href="#" class="btn-delete" id="{{ blog.id }}">删除</a>
+</div>
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script type="text/javascript">
+    $('a.btn-delete').on('click',function (evt) {
+        evt.preventDefault();
+        var blogid = $(this).attr('id');
+        $.ajax({
+            url:'/blogs/'+blogid,
+            type:"DELETE",
+            contentType:"application/json",
+            success:function (resp) {
+                window.open("/blogs","_self");
+            },
+            error:function (resp) {
+                alert("删除博文失败!详情:" + resp.message);
+            }
+        })
+    });
+</script>
+</body>
+</html>
